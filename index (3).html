@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Almacén</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;800&display=swap">
+<style>
+:root{--bg:#eef1f6;--surface:#fff;--ink:#172033;--muted:#667085;--line:#e1e5ee;--brand:#4f46e5;--brandsoft:#e8e7fd;--ok:#12805c;--bad:#d92d20;--side:#161b33;--sideink:#c9cee6;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1220;--surface:#181e33;--ink:#e8ebf5;--muted:#98a2c0;--line:#2a3250;--brandsoft:#2a2d63;--ok:#4cc79a;--bad:#ff7a6e;--side:#0a0d19;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1220;--surface:#181e33;--ink:#e8ebf5;--muted:#98a2c0;--line:#2a3250;--brandsoft:#2a2d63;--ok:#4cc79a;--bad:#ff7a6e;--side:#0a0d19;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.45 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+aside{background:var(--side);padding:22px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.logo{color:#fff;font-weight:800;font-size:21px;padding:0 12px 18px}
+.logo small{display:block;font-weight:500;font-size:13px;color:var(--sideink)}
+aside button{all:unset;cursor:pointer;color:var(--sideink);padding:11px 14px;border-radius:10px;font-weight:600}
+aside button:hover{background:rgba(255,255,255,.07)}
+aside button.on{background:var(--brand);color:#fff}
+main{padding:26px;min-width:0}
+h1{font-size:28px;font-weight:800;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 20px}
+h2{font-size:17px;font-weight:800;margin:0 0 12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.grid4 .card{margin:0}.k{color:var(--muted);font-size:13px}.v{font-size:26px;font-weight:800;margin-top:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.two .card{margin:0}
+.sell{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.tile:hover{border-color:var(--brand)}.tile b{font-weight:600}.tile span{font-weight:800;color:var(--brand)}.tile small{color:var(--muted)}
+.tile.off{opacity:.45}
+.ticket{position:sticky;top:16px;background:var(--side);color:#fff;border-radius:14px;padding:16px}
+.ticket h2{color:#fff}
+.line{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{all:unset;cursor:pointer;width:26px;height:26px;text-align:center;border-radius:8px;background:rgba(255,255,255,.14)}
+.total{font-size:38px;font-weight:800;margin:12px 0 4px}
+.ticket .k{color:var(--sideink)}
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.pm button{all:unset;cursor:pointer;text-align:center;padding:9px;border-radius:10px;border:2px solid rgba(255,255,255,.2);font-weight:600}
+.pm button.on{border-color:#fff;background:rgba(255,255,255,.14)}
+.ticket input{background:#fff;color:#172033;border-color:transparent}
+.chg{margin:8px 0;font-weight:800;min-height:22px}
+input,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+input:focus,select:focus{outline:2px solid var(--brand);border-color:transparent}
+button.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:var(--brand);color:#fff;cursor:pointer}
+button.btn.alt{background:var(--brandsoft);color:var(--brand)}button.btn.bad{background:var(--bad)}button.btn.sm{padding:5px 10px;font-size:13px}button.btn.full{width:100%;font-size:17px;padding:13px;background:#fff;color:#172033}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.bar input{flex:1 1 220px;width:auto}.bar select{width:auto}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:640px}
+th{text-align:left;color:var(--muted);font-weight:600;font-size:13px;padding:8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--brandsoft);color:var(--brand)}
+.tag.low{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}.tag.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.r{text-align:right}.pos{color:var(--ok);font-weight:700}.neg{color:var(--bad);font-weight:700}
+ul.l{list-style:none;margin:0;padding:0}ul.l li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);align-items:center}ul.l li:last-child{border:0}
+.empty{color:var(--muted);padding:8px 0}
+dialog{border:0;border-radius:16px;background:var(--surface);color:var(--ink);padding:20px;width:min(460px,94vw)}dialog::backdrop{background:rgba(8,10,20,.55)}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}.row{display:flex;gap:10px}.row>*{flex:1}
+.foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}.err{color:var(--bad);font-weight:600;min-height:1.3em;margin:8px 0 0}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;display:none;z-index:20}
+.cajaform{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.cajaform>div{flex:1 1 160px}
+@media(max-width:860px){
+body{grid-template-columns:1fr}
+aside{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:10;gap:2px}
+.logo{display:none}aside button{flex:1;text-align:center;padding:10px 2px;font-size:12px}
+main{padding:16px 14px 100px}.grid4{grid-template-columns:1fr 1fr}.two,.sell{grid-template-columns:1fr}.ticket{position:static}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<aside>
+  <div class="logo">Mi Almacén<small>Gestión diaria</small></div>
+  <button data-go="inicio" class="on">Inicio</button><button data-go="vender">Vender</button><button data-go="productos">Productos</button><button data-go="stock">Stock</button><button data-go="caja">Caja</button>
+</aside>
+<main>
+<section class="page" id="v-inicio">
+  <h1>Resumen de hoy</h1><p class="lead" id="hoy"></p>
+  <div class="grid4" id="kpis"></div>
+  <div class="two"><div class="card"><h2>Para reponer</h2><ul class="l" id="lowl"></ul></div><div class="card"><h2>Últimas ventas</h2><ul class="l" id="lastl"></ul></div></div>
+  <p style="margin-top:20px"><button class="btn alt sm" id="reset">Borrar todos los datos</button></p>
+</section>
+
+<section class="page" id="v-vender" hidden>
+  <h1>Vender</h1><p class="lead">Buscá un producto o escaneá el código y tocalo para sumarlo al ticket.</p>
+  <div class="sell"><div><div class="bar"><input id="sq" placeholder="Nombre o código de barras" autocomplete="off"></div><div class="tiles" id="tiles"></div></div>
+  <div class="ticket"><h2>Ticket</h2><div id="cart"></div><div class="k">Total a cobrar</div><div class="total" id="total">$0</div>
+    <div class="pm"><button data-m="cash" class="on">Efectivo</button><button data-m="transfer">Transferencia</button></div>
+    <div id="cashbox"><label class="k" for="recv">Recibido (opcional)</label><input id="recv" type="number" min="0" step="0.01" inputmode="decimal"></div>
+    <div class="chg" id="chg"></div><button class="btn full" id="pay">Cobrar</button></div></div>
+</section>
+
+<section class="page" id="v-productos" hidden>
+  <h1>Productos</h1><p class="lead">Tu lista de precios y datos de cada producto.</p>
+  <div class="bar"><input id="pq" placeholder="Buscar por nombre, código o categoría"><button class="btn" id="newp">Agregar producto</button></div>
+  <div class="card scroll"><table><thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th class="r">Costo</th><th class="r">Precio</th><th class="r">Margen</th><th class="r">Stock</th><th></th></tr></thead><tbody id="pbody"></tbody></table></div>
+</section>
+
+<section class="page" id="v-stock" hidden>
+  <h1>Stock</h1><p class="lead">Controlá lo que tenés y registrá lo que entra o se pierde. Las ventas descuentan solas.</p>
+  <div class="bar"><select id="sf"><option value="">Todos</option><option value="1">Solo bajo mínimo</option></select><button class="btn" id="newm">Registrar movimiento</button></div>
+  <div class="card scroll"><table><thead><tr><th>Producto</th><th class="r">Stock</th><th class="r">Mínimo</th><th class="r">Valor (costo)</th><th>Estado</th><th></th></tr></thead><tbody id="sbody"></tbody></table></div>
+  <div class="card"><h2>Historial</h2><ul class="l" id="mlist"></ul></div>
+</section>
+
+<section class="page" id="v-caja" hidden>
+  <h1>Caja</h1><p class="lead">Lo que entró y salió hoy, y cuánto efectivo tiene que haber en el cajón.</p>
+  <div class="card"><div class="cajaform"><div><label for="open" style="margin:0 0 4px">Efectivo con el que abrís hoy</label><input id="open" type="number" min="0" step="0.01" inputmode="decimal"></div><button class="btn alt" id="saveopen">Guardar</button><button class="btn" id="cin">Ingreso</button><button class="btn bad" id="cout">Egreso</button></div></div>
+  <div class="grid4" id="ckpis"></div>
+  <div class="card"><h2>Movimientos de hoy</h2><ul class="l" id="clist"></ul></div>
+</section>
+</main>
+
+<dialog id="dp"><form id="fp"><h2 id="dpt">Producto</h2>
+  <label for="p-name">Nombre</label><input id="p-name" maxlength="60">
+  <div class="row"><div><label for="p-code">Código</label><input id="p-code" maxlength="30"></div><div><label for="p-cat">Categoría</label><input id="p-cat" maxlength="24"></div></div>
+  <div class="row"><div><label for="p-cost">Costo ($)</label><input id="p-cost" type="number" min="0" step="0.01"></div><div><label for="p-price">Precio de venta ($)</label><input id="p-price" type="number" min="0" step="0.01"></div></div>
+  <div class="row"><div><label for="p-stock">Stock</label><input id="p-stock" type="number" min="0" step="1"></div><div><label for="p-min">Mínimo</label><input id="p-min" type="number" min="0" step="1"></div></div>
+  <p class="err" id="p-err"></p><div class="foot"><button type="button" class="btn bad" id="p-del" hidden>Eliminar</button><button type="button" class="btn alt" data-close>Cancelar</button><button class="btn">Guardar</button></div></form></dialog>
+
+<dialog id="dm"><form id="fm"><h2>Registrar movimiento</h2>
+  <label for="m-prod">Producto</label><select id="m-prod"></select>
+  <div class="row"><div><label for="m-type">Qué pasó</label><select id="m-type"><option value="in">Entrada (compra)</option><option value="out">Salida (merma, rotura)</option></select></div><div><label for="m-qty">Cantidad</label><input id="m-qty" type="number" min="1" step="1" value="1"></div></div>
+  <label for="m-cost">Nuevo costo unitario (opcional)</label><input id="m-cost" type="number" min="0" step="0.01">
+  <label for="m-note">Nota (proveedor, motivo)</label><input id="m-note" maxlength="80">
+  <p class="err" id="m-err"></p><div class="foot"><button type="button" class="btn alt" data-close>Cancelar</button><button class="btn">Registrar</button></div></form></dialog>
+
+<dialog id="dc"><form id="fc"><h2 id="dct">Movimiento de caja</h2>
+  <label for="c-amt">Monto ($)</label><input id="c-amt" type="number" min="0" step="0.01" inputmode="decimal">
+  <label for="c-note">Motivo</label><input id="c-note" maxlength="80" placeholder="Ej. pago a proveedor, retiro, cambio">
+  <p class="err" id="c-err"></p><div class="foot"><button type="button" class="btn alt" data-close>Cancelar</button><button class="btn">Guardar</button></div></form></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+var KEY='almacen-erp-v1',$=function(s){return document.querySelector(s)},$$=function(s){return document.querySelectorAll(s)};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var money=function(n){return '$'+Number(n).toLocaleString('es-AR',{maximumFractionDigits:2})};
+var dk=function(t){return new Date(t).toLocaleDateString('en-CA')},hh=function(t){return new Date(t).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})};
+var seed=function(){var a=[['7790001','Yerba mate 1 kg','Almacén',3900,5200,24,10],['7790002','Aceite de girasol 900 ml','Almacén',2100,2800,8,10],['7790003','Fideos tirabuzón 500 g','Almacén',800,1100,40,15],['7790004','Arroz largo fino 1 kg','Almacén',1100,1500,30,12],['7790005','Azúcar 1 kg','Almacén',950,1300,36,12],['7790006','Harina 000 1 kg','Almacén',650,900,20,15],['7790007','Gaseosa cola 2,25 l','Bebidas',1900,2600,24,12],['7790008','Agua mineral 2 l','Bebidas',850,1200,4,12],['7790009','Galletitas surtidas 400 g','Golosinas',1300,1900,18,8],['7790010','Detergente 750 ml','Limpieza',1600,2300,12,6],['7790011','Papel higiénico x4','Limpieza',2200,3100,6,8],['7790012','Leche entera 1 l','Lácteos',1000,1400,30,20]];
+return{n:100,s:0,p:a.map(function(x,i){return{id:i+1,code:x[0],name:x[1],cat:x[2],cost:x[3],price:x[4],stock:x[5],min:x[6]}}),sales:[],cash:[],moves:[],open:{}}};
+var S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}if(!S||!S.p)S=seed();
+var save=function(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+var low=function(p){return p.stock<=p.min},byId=function(id){return S.p.find(function(p){return p.id===id})};
+var tt;function toast(t){var e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(tt);tt=setTimeout(function(){e.style.display='none'},2600)}
+var cart=[],method='cash';
+
+/* navegación */
+function go(v){$$('.page').forEach(function(e){e.hidden=e.id!=='v-'+v});$$('[data-go]').forEach(function(b){b.classList.toggle('on',b.dataset.go===v)});if(v==='vender')setTimeout(function(){$('#sq').focus()},0);window.scrollTo(0,0)}
+$$('[data-go]').forEach(function(b){b.onclick=function(){go(b.dataset.go)}});
+$$('[data-close]').forEach(function(b){b.onclick=function(){b.closest('dialog').close()}});
+
+/* cálculos */
+function today(){var d=dk(Date.now());var sl=S.sales.filter(function(x){return dk(x.ts)===d}),cs=S.cash.filter(function(x){return dk(x.ts)===d});
+ var sum=function(a,f){return a.reduce(function(t,x){return t+f(x)},0)};
+ var cashS=sum(sl.filter(function(x){return x.method==='cash'}),function(x){return x.total}),trS=sum(sl.filter(function(x){return x.method==='transfer'}),function(x){return x.total});
+ var inn=sum(cs.filter(function(x){return x.type==='in'}),function(x){return x.amount}),out=sum(cs.filter(function(x){return x.type==='out'}),function(x){return x.amount});
+ var open=S.open[d]||0;return{d:d,sl:sl,cs:cs,cashS:cashS,trS:trS,inn:inn,out:out,open:open,expected:open+cashS+inn-out,total:cashS+trS}}
+
+/* inicio */
+function rInicio(){var t=today(),l=S.p.filter(low);
+ $('#hoy').textContent=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+ $('#kpis').innerHTML=[['Vendido hoy',money(t.total)],['Ventas',t.sl.length],['Efectivo esperado en caja',money(t.expected)],['Productos bajo mínimo',l.length]].map(function(k){return '<div class="card"><div class="k">'+k[0]+'</div><div class="v">'+k[1]+'</div></div>'}).join('');
+ $('#lowl').innerHTML=l.length?l.map(function(p){return '<li><span><b>'+esc(p.name)+'</b><br><small class="k">Quedan '+p.stock+' · mínimo '+p.min+'</small></span><button class="btn sm alt" data-mv="'+p.id+'">Registrar entrada</button></li>'}).join(''):'<li class="empty">Todo en orden. Nada está por debajo del mínimo.</li>';
+ $('#lastl').innerHTML=S.sales.length?S.sales.slice(0,6).map(function(x){return '<li><span>Venta #'+x.id+' <small class="k">'+hh(x.ts)+' · '+(x.method==='cash'?'Efectivo':'Transferencia')+'</small></span><b>'+money(x.total)+'</b></li>'}).join(''):'<li class="empty">Todavía no hay ventas. Andá a Vender para registrar la primera.</li>'}
+$('#v-inicio').addEventListener('click',function(e){var b=e.target.closest('[data-mv]');if(b)openMove(+b.dataset.mv,'in')});
+
+/* vender */
+function rTiles(){var q=$('#sq').value.trim().toLowerCase();
+ var l=S.p.filter(function(p){return!q||(p.name+' '+p.code+' '+p.cat).toLowerCase().indexOf(q)>-1}).sort(function(a,b){return a.name.localeCompare(b.name)}).slice(0,60);
+ $('#tiles').innerHTML=l.length?l.map(function(p){return '<button class="tile'+(p.stock<=0?' off':'')+'" data-add="'+p.id+'"><b>'+esc(p.name)+'</b><span>'+money(p.price)+'</span><small>'+p.stock+' en stock</small></button>'}).join(''):'<p class="empty">No hay productos con esa búsqueda.</p>'}
+function addCart(id){var p=byId(id),c=cart.find(function(x){return x.id===id}),n=(c?c.qty:0)+1;if(!p)return;if(n>p.stock){toast('No hay más stock de '+p.name);return}if(c)c.qty=n;else cart.push({id:id,qty:1});rCart()}
+function cartTotal(){return cart.reduce(function(t,c){var p=byId(c.id);return t+(p?p.price*c.qty:0)},0)}
+function rCart(){$('#cart').innerHTML=cart.length?cart.map(function(c){var p=byId(c.id);return '<div class="line"><span>'+esc(p.name)+'<br><small class="k">'+money(p.price)+' c/u</small></span><span class="qty"><button data-dec="'+c.id+'" aria-label="Quitar uno">−</button>'+c.qty+'<button data-inc="'+c.id+'" aria-label="Sumar uno">+</button></span><b>'+money(p.price*c.qty)+'</b></div>'}).join(''):'<p class="k">El ticket está vacío.</p>';calc()}
+function calc(){var t=cartTotal(),r=parseFloat($('#recv').value);$('#total').textContent=money(t);$('#cashbox').hidden=method!=='cash';var c=$('#chg');
+ if(method==='cash'&&r>0&&t>0){c.textContent=r>=t?'Vuelto: '+money(r-t):'Faltan '+money(t-r)}else c.textContent=''}
+$('#sq').oninput=rTiles;
+$('#sq').onkeydown=function(e){if(e.key!=='Enter')return;var q=this.value.trim(),p=S.p.find(function(x){return x.code===q});
+ if(!p){var l=S.p.filter(function(x){return x.name.toLowerCase().indexOf(q.toLowerCase())>-1});if(l.length===1)p=l[0]}
+ if(p){addCart(p.id);this.value='';rTiles()}else toast('No encontré ese producto')};
+$('#tiles').onclick=function(e){var b=e.target.closest('[data-add]');if(b)addCart(+b.dataset.add)};
+$('#cart').onclick=function(e){var i=e.target.closest('[data-inc]'),d=e.target.closest('[data-dec]');if(i)addCart(+i.dataset.inc);if(d){var c=cart.find(function(x){return x.id===+d.dataset.dec});c.qty--;if(c.qty<1)cart=cart.filter(function(x){return x!==c});rCart()}};
+$$('.pm button').forEach(function(b){b.onclick=function(){method=b.dataset.m;$$('.pm button').forEach(function(x){x.classList.toggle('on',x===b)});calc()}});
+$('#recv').oninput=calc;
+$('#pay').onclick=function(){if(!cart.length){toast('Sumá productos al ticket');return}var t=cartTotal(),r=parseFloat($('#recv').value)||0;
+ if(method==='cash'&&r>0&&r<t){toast('El monto recibido no cubre el total');return}
+ var items=cart.map(function(c){var p=byId(c.id);p.stock-=c.qty;S.moves.unshift({ts:Date.now(),name:p.name,type:'sale',qty:c.qty,note:'Venta #'+(S.s+1)});return{pid:p.id,name:p.name,qty:c.qty,price:p.price}});
+ S.s++;S.sales.unshift({id:S.s,ts:Date.now(),items:items,total:t,method:method,paid:method==='cash'&&r>0?r:t});S.moves=S.moves.slice(0,300);
+ cart=[];$('#recv').value='';save();renderAll();toast(method==='cash'&&r>t?'Cobrado. Vuelto: '+money(r-t):'Venta registrada')};
+
+/* productos */
+function rProds(){var q=$('#pq').value.trim().toLowerCase();var l=S.p.filter(function(p){return!q||(p.name+' '+p.code+' '+p.cat).toLowerCase().indexOf(q)>-1}).sort(function(a,b){return a.name.localeCompare(b.name)});
+ $('#pbody').innerHTML=l.length?l.map(function(p){var m=p.cost>0?Math.round((p.price-p.cost)/p.cost*100)+'%':'—';return '<tr><td>'+esc(p.code)+'</td><td><b>'+esc(p.name)+'</b></td><td>'+esc(p.cat)+'</td><td class="r">'+money(p.cost)+'</td><td class="r">'+money(p.price)+'</td><td class="r">'+m+'</td><td class="r">'+p.stock+'</td><td class="r"><button class="btn sm alt" data-ed="'+p.id+'">Editar</button></td></tr>'}).join(''):'<tr><td colspan="8" class="empty">'+(S.p.length?'Ningún producto coincide.':'Todavía no cargaste productos. Usá Agregar producto.')+'</td></tr>'}
+$('#pq').oninput=rProds;$('#pbody').onclick=function(e){var b=e.target.closest('[data-ed]');if(b)openProd(+b.dataset.ed)};
+var ed=null,armed=false;
+function openProd(id){ed=id?byId(id):null;armed=false;var p=ed||{name:'',code:'',cat:'',cost:'',price:'',stock:0,min:5};
+ $('#dpt').textContent=ed?'Editar producto':'Agregar producto';$('#p-name').value=p.name;$('#p-code').value=p.code;$('#p-cat').value=p.cat;$('#p-cost').value=p.cost;$('#p-price').value=p.price;$('#p-stock').value=p.stock;$('#p-stock').disabled=!!ed;$('#p-min').value=p.min;
+ $('#p-del').hidden=!ed;$('#p-del').textContent='Eliminar';$('#p-err').textContent='';$('#dp').showModal()}
+$('#newp').onclick=function(){openProd(0)};
+$('#fp').onsubmit=function(e){e.preventDefault();var d={name:$('#p-name').value.trim(),code:$('#p-code').value.trim(),cat:$('#p-cat').value.trim(),cost:Math.max(0,parseFloat($('#p-cost').value)||0),price:Math.max(0,parseFloat($('#p-price').value)||0),min:Math.max(0,parseInt($('#p-min').value)||0)};
+ if(!d.name){$('#p-err').textContent='Escribí el nombre del producto.';return}
+ if(d.code&&S.p.some(function(x){return x.code===d.code&&x!==ed})){$('#p-err').textContent='Ya hay un producto con ese código.';return}
+ if(ed)Object.assign(ed,d);else{d.id=++S.n;d.stock=Math.max(0,parseInt($('#p-stock').value)||0);S.p.push(d)}
+ save();renderAll();$('#dp').close();toast('Producto guardado')};
+$('#p-del').onclick=function(){if(!armed){armed=true;this.textContent='¿Seguro? Tocá de nuevo';return}S.p=S.p.filter(function(p){return p!==ed});cart=cart.filter(function(c){return c.id!==(ed&&ed.id)});save();renderAll();$('#dp').close();toast('Producto eliminado')};
+
+/* stock */
+function rStock(){var o=$('#sf').value;var l=S.p.filter(function(p){return!o||low(p)}).sort(function(a,b){return a.name.localeCompare(b.name)});
+ $('#sbody').innerHTML=l.length?l.map(function(p){return '<tr><td><b>'+esc(p.name)+'</b></td><td class="r">'+p.stock+'</td><td class="r">'+p.min+'</td><td class="r">'+money(p.stock*p.cost)+'</td><td><span class="tag '+(low(p)?'low':'ok')+'">'+(p.stock<=0?'Sin stock':low(p)?'Reponer':'En orden')+'</span></td><td class="r"><button class="btn sm alt" data-mv="'+p.id+'">Movimiento</button></td></tr>'}).join(''):'<tr><td colspan="6" class="empty">No hay productos para mostrar.</td></tr>';
+ var T={in:'Entrada',out:'Salida',sale:'Venta'};
+ $('#mlist').innerHTML=S.moves.length?S.moves.slice(0,15).map(function(x){return '<li><span>'+esc(x.name)+' <small class="k">'+T[x.type]+(x.note?' · '+esc(x.note):'')+' · '+new Date(x.ts).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit'})+' '+hh(x.ts)+'</small></span><b class="'+(x.type==='in'?'pos':'neg')+'">'+(x.type==='in'?'+':'−')+x.qty+'</b></li>'}).join(''):'<li class="empty">Sin movimientos todavía.</li>'}
+$('#sf').onchange=rStock;$('#sbody').onclick=function(e){var b=e.target.closest('[data-mv]');if(b)openMove(+b.dataset.mv)};
+function openMove(id,t){if(!S.p.length){toast('Primero agregá un producto');return}
+ $('#m-prod').innerHTML=S.p.slice().sort(function(a,b){return a.name.localeCompare(b.name)}).map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+' (hay '+p.stock+')</option>'}).join('');
+ if(id)$('#m-prod').value=id;$('#m-type').value=t||'in';$('#m-qty').value=1;$('#m-cost').value='';$('#m-note').value='';$('#m-err').textContent='';$('#dm').showModal()}
+$('#newm').onclick=function(){openMove(0)};
+$('#fm').onsubmit=function(e){e.preventDefault();var p=byId(+$('#m-prod').value),t=$('#m-type').value,q=parseInt($('#m-qty').value),c=parseFloat($('#m-cost').value);
+ if(!p||!(q>0)){$('#m-err').textContent='Ingresá una cantidad mayor a 0.';return}
+ if(t==='out'&&q>p.stock){$('#m-err').textContent='No alcanza: de '+p.name+' hay '+p.stock+' unidades.';return}
+ p.stock+=t==='in'?q:-q;if(t==='in'&&c>0)p.cost=c;S.moves.unshift({ts:Date.now(),name:p.name,type:t,qty:q,note:$('#m-note').value.trim()});S.moves=S.moves.slice(0,300);
+ save();renderAll();$('#dm').close();toast(t==='in'?'Entrada registrada':'Salida registrada')};
+
+/* caja */
+function rCaja(){var t=today();$('#open').value=t.open||'';
+ $('#ckpis').innerHTML=[['Efectivo esperado en caja',money(t.expected)],['Ventas en efectivo',money(t.cashS)],['Ventas por transferencia',money(t.trS)],['Ingresos − egresos',money(t.inn-t.out)]].map(function(k){return '<div class="card"><div class="k">'+k[0]+'</div><div class="v">'+k[1]+'</div></div>'}).join('');
+ var rows=t.sl.map(function(x){return{ts:x.ts,txt:'Venta #'+x.id+' · '+(x.method==='cash'?'Efectivo':'Transferencia'),amt:x.total,sign:1}}).concat(t.cs.map(function(x){return{ts:x.ts,txt:(x.type==='in'?'Ingreso: ':'Egreso: ')+esc(x.note||'sin motivo'),amt:x.amount,sign:x.type==='in'?1:-1}})).sort(function(a,b){return b.ts-a.ts});
+ $('#clist').innerHTML=rows.length?rows.map(function(r){return '<li><span>'+r.txt+' <small class="k">'+hh(r.ts)+'</small></span><b class="'+(r.sign>0?'pos':'neg')+'">'+(r.sign>0?'+':'−')+money(r.amt)+'</b></li>'}).join(''):'<li class="empty">Hoy todavía no hay movimientos de caja.</li>'}
+$('#saveopen').onclick=function(){S.open[dk(Date.now())]=Math.max(0,parseFloat($('#open').value)||0);save();renderAll();toast('Saldo inicial guardado')};
+var ctype='in';function openCash(t){ctype=t;$('#dct').textContent=t==='in'?'Ingreso de efectivo':'Egreso de efectivo';$('#c-amt').value='';$('#c-note').value='';$('#c-err').textContent='';$('#dc').showModal()}
+$('#cin').onclick=function(){openCash('in')};$('#cout').onclick=function(){openCash('out')};
+$('#fc').onsubmit=function(e){e.preventDefault();var a=parseFloat($('#c-amt').value);if(!(a>0)){$('#c-err').textContent='Ingresá un monto mayor a 0.';return}
+ S.cash.unshift({ts:Date.now(),type:ctype,amount:a,note:$('#c-note').value.trim()});save();renderAll();$('#dc').close();toast('Movimiento guardado')};
+
+var ra=false;$('#reset').onclick=function(){if(!ra){ra=true;this.textContent='¿Seguro? Tocá de nuevo para borrar todo';return}S={n:0,s:0,p:[],sales:[],cash:[],moves:[],open:{}};cart=[];save();renderAll();ra=false;this.textContent='Borrar todos los datos';toast('Datos borrados')};
+function renderAll(){rInicio();rTiles();rCart();rProds();rStock();rCaja()}
+renderAll();
+})();
+</script>
+</body>
+</html>
